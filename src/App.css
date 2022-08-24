@@ -22,10 +22,18 @@ header {
 .card-grid {
     display:flex;
     flex-wrap:wrap;
-    justify-content:space-around;
+    justify-content:space-evenly;
 }
 
 .char-card {
-    padding:.75%;
+    margin:.5em;
+    padding:1%;
     border:.25em solid seagreen;
+}
+
+/*==========================
+    |---- Ep Card ----|
+============================*/
+.ep-card{
+    padding:.25em;
 }
