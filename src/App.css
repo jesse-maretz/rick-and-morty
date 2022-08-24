@@ -3,6 +3,7 @@
 ============================*/
 * {
     box-sizing:border-box;
+    border:.18em solid seagreen;
 }
 
 /*===========================
@@ -25,15 +26,15 @@ header {
     justify-content:space-evenly;
 }
 
-.char-card {
+.card {
     margin:.5em;
     padding:1%;
-    border:.25em solid seagreen;
+    border:.2em solid crimson;
 }
 
 /*==========================
     |---- Ep Card ----|
 ============================*/
 .ep-card{
-    padding:.25em;
+    background-image: url("https://i.imgur.com/M4yxOUV.png");
 }

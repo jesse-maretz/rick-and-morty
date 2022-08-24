@@ -5,55 +5,77 @@ import Episode from './Components/Episode';
 import './App.css';
 
 function App() {
-  const [chars, setChars] = useState([])
-  const [eps, setEps] = useState([])
+
+/*=========================
+  |--- State Trackers ---|
+=========================*/
+
+  const [chars, setChars] = useState(false)
+  const [eps, setEps] = useState(false)
   const [display, setDisplay] = useState([])
   const [page, setPage] = useState(1)
-  const [link, setLink] = useState("https://rickandmortyapi.com/api")
   const [next, setNext] = useState("")
   const [prev, setPrev] = useState("")
 
-
+/*=========================
+  |--- GET Characters ---|
+=========================*/
   const getCharacters = () => {
-    axios.get(`${link}/character`)
+    setDisplay([])
+    axios.get(`https://rickandmortyapi.com/api/character`)
     .then((res)=>{
+
       console.log(res.data)
-      setChars(res.data.results)
-      setDisplay(chars)
+
+      setEps(false)
+      setDisplay(res.data.results)
+      setChars(true)
+
       setNext(res.data.info.next)
       setPrev(res.data.info.prev)
-      console.log(res.data.results)
+
     })
   }
 
+
+/*=========================
+  |--- GET Episodes ---|
+=========================*/
   const getEpisodes = () => {
-    axios.get(`${link}/episode`)
+    axios.get(`https://rickandmortyapi.com/api/episode`)
     .then((res)=>{
-      setEps(res.data.results)
-      setDisplay(eps)
+
+      console.log(res.data)
+
+      setChars(false)
+      setDisplay(res.data.results)
+      setEps(true)
+
+
+      setNext(res.data.info.next)
+      setPrev(res.data.info.prev)
+
+    })
+  }
+
+
+  const nextPage = () => {
+    axios.get(next)
+    .then((res)=>{
+      setDisplay(res.data.results)
       setNext(res.data.info.next)
       setPrev(res.data.info.prev)
     })
   }
 
-
-  // const nextPage = () => {
-  //   axios.get(next)
-  //   .then((res)=>{
-  //     setDisplay(res.data.results)
-  //     setNext(res.data.info.next)
-  //     setPrev(res.data.info.prev)
-  //   })
-  // }
-
-  // const prevPage = () => {
-  //   axios.get(prev)
-  //   .then((res)=>{
-  //     setDisplay(res.data.results)
-  //     setNext(res.data.info.next)
-  //     setPrev(res.data.info.prev)
-  //   })
-  // }
+  const prevPage = () => {
+    axios.get(prev)
+    .then((res)=>{
+      setDisplay(res.data.results)
+      setNext(res.data.info.next)
+      setPrev(res.data.info.prev)
+    })
+  }
 
 
   return (
@@ -67,30 +89,52 @@ function App() {
       </div>
 
 
+        <div className="grid-display">
+          {chars ?
+            <div className="card-grid">
+            {display.map((display)=>{
+              return(
+                <div key={display.id} className="char card">
+                  <h2>{display.name}</h2>
+                  <img src={display.image} alt="Oopsie daisy" />
+                  <h4>{display.species}</h4>
+                  <h4>{display.status}</h4>
+                </div>
+              )
+            })}
+          </div>
+        : null}
+      </div>
 
-      <div className="card-grid">
-        {chars.map((char)=>{
+      <div className="grid-display">
+          {eps ?
+            <div className="card-grid">
+            {display.map((display)=>{
+              return(
+                <div key={display.id} className="char card">
+                  <h2>{display.name}</h2>
+                </div>
+              )
+            })}
+          </div>
+        : null}
+      </div>
+
+      {/* {display == "chars" && display!="" ? */}
+
+      {/* <div className="card-grid">
+        {eps.map((ep)=>{
           return(
-            <div className="char-card">
-              <h2>{char.name}</h2>
-              <img src={char.image} alt="" />
-              <h4>{char.species}</h4>
-              <h4>{char.status}</h4>
+            <div
+            key={ep.id}
+            className="ep card">
+              <h2>{ep.name}</h2>
+              <h4>{ep.episode}</h4>
+              <h4>{ep.air_date}</h4>
             </div>
           )
         })}
-      </div>
-
-      {/* <div>
-        <img src={'char'} alt="Character Picture" />
-        <h3>Name:</h3>
-        <h4>Species:</h4>
-        <p>Original Air Date: </p>
       </div> */}
-
-
-
-
     </div>
   );
 }
